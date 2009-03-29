@@ -13,12 +13,13 @@
  */
 package org.yestech.cache.spring;
 
-import org.apache.jcs.JCS;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
+import org.tc.cache.CacheFactory;
+import org.tc.cache.ITerracottaCache;
 
 import java.io.IOException;
 
@@ -26,12 +27,10 @@ import java.io.IOException;
  * @author Artie Copeland
  * @version $Revision: $
  */
-public class JCSFactoryBean implements FactoryBean, InitializingBean {
-
-    final private static Logger logger = LoggerFactory.getLogger(JCSFactoryBean.class);
+public abstract class TerracottaCacheFactoryBean implements FactoryBean, InitializingBean, DisposableBean {
 
     private String cacheName;
-    private JCS cache;
+    private ITerracottaCache cache;
 
     /**
      * Set a name for which to retrieve or create a cache instance.
@@ -42,26 +41,36 @@ public class JCSFactoryBean implements FactoryBean, InitializingBean {
         this.cacheName = cacheName;
     }
 
-    public void afterPropertiesSet() throws IOException {
-        try {
-            this.cache = JCS.getInstance(this.cacheName);
-        }
-        catch (org.apache.jcs.access.exception.CacheException e) {
-            logger.error("Error creating cache: " + cacheName, e);
-            throw new RuntimeException("Error creating cache: " + cacheName, e);
-        }
+    public String getCacheName() {
+        return cacheName;
     }
+
+    public ITerracottaCache getCache() {
+        return cache;
+    }
+
+    public void afterPropertiesSet() throws IOException {
+        this.cache = getCacheInstance();
+    }
+
+    protected abstract ITerracottaCache getCacheInstance();
 
     public Object getObject() {
         return this.cache;
     }
 
     public Class getObjectType() {
-        return (this.cache != null ? this.cache.getClass() : JCS.class);
+        return (this.cache != null ? this.cache.getClass() : getCacheType());
     }
+
+    protected abstract Class<? extends ITerracottaCache> getCacheType();
 
     public boolean isSingleton() {
         return true;
     }
 
+    @Override
+    public void destroy() throws Exception {
+        CacheFactory.getInstance().destroyCache(cacheName);
+    }
 }

@@ -22,13 +22,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * {@link org.yestech.cache.ICacheManager} that allows access to Terracotta
+ *
  * @author Artie Copeland
  * @version $Revision: $
  */
-public class TreeMapCacheCacheManager implements ICacheManager {
-    final private static Logger logger = LoggerFactory.getLogger(TreeMapCacheCacheManager.class);
+public class TerracottaCacheManager implements ICacheManager {
+    final private static Logger logger = LoggerFactory.getLogger(TerracottaCacheManager.class);
     
-    private String fqn; //= "/quotecache";
+    private String fqn;
 
     private ITerracottaCache cache;
 
@@ -36,14 +38,18 @@ public class TreeMapCacheCacheManager implements ICacheManager {
         return cache;
     }
 
+    public String getFqn() {
+        return fqn;
+    }
+
+    @Required
+    public void setFqn(String fqn) {
+        this.fqn = fqn;
+    }
+
     @Required
     public void setCache(ITerracottaCache cache) {
         this.cache = cache;
-        try {
-            fqn = cache.getStringFqn();
-        } catch (CacheException e) {
-            logger.error("error getting Fqn", e);
-        }
     }
 
     @Override
