@@ -21,15 +21,19 @@ import org.yestech.cache.ICacheManager;
 import org.yestech.lib.util.Pair;
 
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * @author Artie Copeland
  * @version $Revision: $
  */
-public class HashMapCacheManager implements ICacheManager {
+public class MapCacheManager implements ICacheManager {
 
     @Root
     private Map cache;
+    private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+    private ReentrantReadWriteLock.ReadLock readLock = rwl.readLock();
+    private ReentrantReadWriteLock.WriteLock writeLock = rwl.writeLock();
 
     public Map getCache() {
         return cache;
@@ -43,8 +47,11 @@ public class HashMapCacheManager implements ICacheManager {
     @Override
     @AutolockRead
     public <K> boolean contains(K k) {
-        synchronized (cache) {
+        readLock.lock();
+        try {
             return cache.containsKey(k);
+        } finally {
+            readLock.unlock();
         }
     }
 
@@ -58,32 +65,44 @@ public class HashMapCacheManager implements ICacheManager {
     @Override
     @AutolockWrite
     public <V, K> void put(K k, V v) {
-        synchronized (cache) {
+        writeLock.lock();
+        try {
             cache.put(k, v);
+        } finally {
+            writeLock.unlock();
         }
     }
 
     @Override
     @AutolockRead
     public <V, K> V get(K key) {
-        synchronized (cache) {
+        readLock.lock();
+        try {
             return (V) cache.get(key);
+        } finally {
+            readLock.unlock();
         }
     }
 
     @Override
     @AutolockWrite
     public void flushAll() {
-        synchronized (cache) {
+        writeLock.lock();
+        try {
             cache.clear();
+        } finally {
+            writeLock.unlock();
         }
     }
 
     @Override
     @AutolockWrite
     public <K> void flush(K key) {
-        synchronized (cache) {
+        writeLock.lock();
+        try {
             cache.remove(key);
+        } finally {
+            writeLock.unlock();
         }
     }
 }
