@@ -32,8 +32,8 @@ public class MapCacheManager implements ICacheManager {
     @Root
     private Map cache;
     private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
-    private ReentrantReadWriteLock.ReadLock readLock = rwl.readLock();
-    private ReentrantReadWriteLock.WriteLock writeLock = rwl.writeLock();
+    private Lock readLock = rwl.readLock();
+    private Lock writeLock = rwl.writeLock();
 
     public Map getCache() {
         return cache;
