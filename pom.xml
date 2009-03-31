@@ -52,6 +52,16 @@
             <groupId>jcs</groupId>
             <artifactId>jcs</artifactId>
             <version>1.3</version>
+            <exclusions>
+                  <exclusion>
+                      <groupId>xerces</groupId>
+                     <artifactId>xercesImpl</artifactId>
+                  </exclusion>
+                  <exclusion>
+                      <groupId>xerces</groupId>
+                     <artifactId>xerces</artifactId>
+                  </exclusion>
+               </exclusions>
         </dependency>
         <dependency>
             <groupId>org.yestech</groupId>
