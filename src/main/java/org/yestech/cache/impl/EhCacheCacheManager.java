@@ -21,10 +21,13 @@ import org.slf4j.LoggerFactory;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 
+import java.util.Set;
+
 /**
  * @author Artie Copeland
  * @version $Revision: $
  */
+@SuppressWarnings("unchecked")
 public class EhCacheCacheManager implements ICacheManager {
     final private static Logger logger = LoggerFactory.getLogger(EhCacheCacheManager.class);
 
@@ -84,5 +87,15 @@ public class EhCacheCacheManager implements ICacheManager {
     @Override
     public <K> void flush(K key) {
         cache.remove(key);
+    }
+
+    @Override
+    public <K> Set<K> keySet() {
+        return (Set<K>)cache.getKeys();
+    }
+
+    @Override
+    public <V> Set<V> getAll() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

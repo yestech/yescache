@@ -21,10 +21,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 
+import java.util.Set;
+
 /**
  * @author Artie Copeland
  * @version $Revision: $
  */
+@SuppressWarnings("unchecked")
 public class JCSCacheManager implements ICacheManager
 {
     final private static Logger logger = LoggerFactory.getLogger(JCSCacheManager.class);
@@ -113,5 +116,15 @@ public class JCSCacheManager implements ICacheManager
     @Override
     public <K> boolean contains(K k) {
         return cache.get(k) != null;
+    }
+
+    @Override
+    public <K> Set<K> keySet() {
+        throw new UnsupportedOperationException("not yet implemented...");
+    }
+
+    @Override
+    public <V> Set<V> getAll() {
+        throw new UnsupportedOperationException("not yet implemented...");
     }
 }

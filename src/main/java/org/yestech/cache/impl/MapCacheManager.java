@@ -21,13 +21,15 @@ import org.yestech.cache.ICacheManager;
 import org.yestech.lib.util.Pair;
 
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * @author Artie Copeland
  * @version $Revision: $
  */
+@SuppressWarnings("unchecked")
 public class MapCacheManager implements ICacheManager {
 
     @Root
@@ -104,6 +106,27 @@ public class MapCacheManager implements ICacheManager {
             cache.remove(key);
         } finally {
             writeLock.unlock();
+        }
+    }
+
+    @Override
+    public <K> Set<K> keySet() {
+        readLock.lock();
+        try {
+            return (Set<K>) cache.keySet();
+        } finally {
+            readLock.unlock();
+        }
+
+    }
+
+    @Override
+    public <V> Set<V> getAll() {
+        readLock.lock();
+        try {
+            return (Set<V>) cache.entrySet();
+        } finally {
+            readLock.unlock();
         }
     }
 }

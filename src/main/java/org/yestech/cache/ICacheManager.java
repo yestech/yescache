@@ -15,6 +15,8 @@ package org.yestech.cache;
 
 import org.yestech.lib.util.Pair;
 
+import java.util.Set;
+
 /**
  * @author Artie Copeland
  * @version $Revision: $
@@ -32,4 +34,9 @@ public interface ICacheManager {
     void flushAll();
 
     <K> void flush(K key);
+
+    <K> Set<K> keySet();
+
+    <V> Set<V> getAll();
+
 }

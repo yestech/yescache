@@ -21,11 +21,13 @@ import org.yestech.cache.ICacheManager;
 import org.yestech.lib.util.Pair;
 
 import java.util.concurrent.ConcurrentMap;
+import java.util.Set;
 
 /**
  * @author Artie Copeland
  * @version $Revision: $
  */
+@SuppressWarnings("unchecked")
 public class ConcurrentMapCacheManager implements ICacheManager {
 
     @Root
@@ -75,5 +77,17 @@ public class ConcurrentMapCacheManager implements ICacheManager {
     @AutolockWrite
     public <K> void flush(K key) {
         cache.remove(key);
+    }
+
+    @Override
+    @AutolockRead
+    public <K> Set<K> keySet() {
+        return (Set<K>)cache.keySet();
+    }
+
+    @Override
+    @AutolockRead
+    public <V> Set<V> getAll() {
+        return (Set<V>)cache.entrySet();
     }
 }

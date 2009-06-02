@@ -13,13 +13,16 @@
  */
 package org.yestech.cache.impl;
 
-import org.yestech.cache.ICacheManager;
-import org.yestech.lib.util.Pair;
-import org.tc.cache.ITerracottaCache;
-import org.tc.cache.CacheException;
-import org.springframework.beans.factory.annotation.Required;
+import static com.google.common.collect.Sets.newHashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Required;
+import org.tc.cache.CacheException;
+import org.tc.cache.ITerracottaCache;
+import org.yestech.cache.ICacheManager;
+import org.yestech.lib.util.Pair;
+
+import java.util.Set;
 
 /**
  * {@link org.yestech.cache.ICacheManager} that allows access to Terracotta
@@ -27,9 +30,10 @@ import org.slf4j.LoggerFactory;
  * @author Artie Copeland
  * @version $Revision: $
  */
+@SuppressWarnings("unchecked")
 public class TerracottaCacheManager implements ICacheManager {
     final private static Logger logger = LoggerFactory.getLogger(TerracottaCacheManager.class);
-    
+
     private String fqn;
 
     private ITerracottaCache cache;
@@ -84,17 +88,14 @@ public class TerracottaCacheManager implements ICacheManager {
         } catch (CacheException e) {
             logger.error("error getting key: " + key, e);
         }
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             logger.debug("Time to retrieve from cache: " + (System.currentTimeMillis() - start) + " ms");
         }
-        if (cachedValue == null)
-        {
+        if (cachedValue == null) {
             //reference is gone so remove from cache.....
-            if (logger.isInfoEnabled())
-            {
+            if (logger.isInfoEnabled()) {
                 logger.info("Reference to object associated with cache element [" + key
-                            + "] garbage collected remove from cache");
+                        + "] garbage collected remove from cache");
             }
             flush(key);
         }
@@ -117,5 +118,29 @@ public class TerracottaCacheManager implements ICacheManager {
         } catch (CacheException e) {
             logger.error("error flushing key: " + key, e);
         }
+    }
+
+    @Override
+    public <K> Set<K> keySet() {
+        try {
+            return (Set<K>) cache.getKeys(fqn);
+        } catch (CacheException e) {
+            logger.error("error getting key set", e);
+        }
+        return null;
+    }
+
+    @Override
+    public <V> Set<V> getAll() {
+        Set values = newHashSet();
+        Set<Object> keys = keySet();
+        if (keys == null) {
+            return null;
+        } else {
+            for (Object key : keys) {
+                values.add(get(key));
+            }
+        }
+        return values;
     }
 }
