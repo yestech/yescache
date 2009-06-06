@@ -36,6 +36,7 @@
             <groupId>org.jmock</groupId>
             <artifactId>jmock-junit4</artifactId>
             <version>2.5.1</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -53,15 +54,15 @@
             <artifactId>jcs</artifactId>
             <version>1.3</version>
             <exclusions>
-                  <exclusion>
-                      <groupId>xerces</groupId>
-                     <artifactId>xercesImpl</artifactId>
-                  </exclusion>
-                  <exclusion>
-                      <groupId>xerces</groupId>
-                     <artifactId>xerces</artifactId>
-                  </exclusion>
-               </exclusions>
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xercesImpl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xerces</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.yestech</groupId>
@@ -69,29 +70,28 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-          <groupId>org.terracotta.modules</groupId>
-          <artifactId>tim-annotations</artifactId>
-          <version>1.2.3</version>
+            <groupId>org.terracotta.modules</groupId>
+            <artifactId>tim-annotations</artifactId>
+            <version>1.2.3</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.terracotta</groupId>
-            <artifactId>terracotta</artifactId>
-            <version>2.7.3</version>
-        </dependency>
-        <dependency>
-          <groupId>org.terracotta.modules</groupId>
-          <artifactId>tim-terracotta-cache</artifactId>
-          <version>1.2.1</version>
+            <groupId>org.terracotta.modules</groupId>
+            <artifactId>tim-terracotta-cache</artifactId>
+            <version>1.2.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
             <version>1.5.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.terracotta.modules</groupId>
             <artifactId>tim-map-evictor</artifactId>
-            <version>1.1.2</version>
+            <version>1.2.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>
