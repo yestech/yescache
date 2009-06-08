@@ -34,9 +34,12 @@ public class TerracottaDistributedMapCacheManager implements ICacheManager {
 
     @Root
     private DistributedMap cache;
-    private int maxTTIInSeconds;
-    private int maxTTLInSeconds;
+    private long maxTTIInMillis;
+    private long maxTTLInMillis;
+    private long evictorSleepInMillis;
     private int concurrency;
+    private long orphanBatchPauseMillis;
+    private int orphanBatchSize;
     private boolean orphanEvictionEnabled;
     private int orphanEvictionFrequency;
     private boolean evictorLogging;
@@ -45,14 +48,23 @@ public class TerracottaDistributedMapCacheManager implements ICacheManager {
     @PostConstruct
     public void start() {
         DistributedMapBuilder builder = new DistributedMapBuilder();
-        if (maxTTIInSeconds > 0) {
-            builder = builder.setMaxTTISeconds(maxTTIInSeconds);
+        if (maxTTIInMillis > 0) {
+            builder = builder.setMaxTTIMillis(maxTTIInMillis);
         }
-        if (maxTTLInSeconds > 0) {
-            builder = builder.setMaxTTLSeconds(maxTTLInSeconds);
+        if (maxTTLInMillis > 0) {
+            builder = builder.setMaxTTLMillis(maxTTLInMillis);
+        }
+        if (evictorSleepInMillis > 0) {
+            builder = builder.setEvictorSleepMillis(evictorSleepInMillis);
         }
         if (concurrency > 0) {
             builder = builder.setConcurrency(concurrency);
+        }
+        if (orphanBatchPauseMillis > 0) {
+            builder = builder.setOrphanBatchPauseMillis(orphanBatchPauseMillis);
+        }
+        if (orphanBatchSize > 0) {
+            builder = builder.setOrphanBatchSize(orphanBatchSize);
         }
         if (orphanEvictionEnabled) {
             builder = builder.setOrphanEvictionEnabled(orphanEvictionEnabled);
@@ -77,6 +89,22 @@ public class TerracottaDistributedMapCacheManager implements ICacheManager {
         if (cache != null) {
             cache.shutdown();
         }
+    }
+
+    public long getOrphanBatchPauseMillis() {
+        return orphanBatchPauseMillis;
+    }
+
+    public void setOrphanBatchPauseMillis(long orphanBatchPauseMillis) {
+        this.orphanBatchPauseMillis = orphanBatchPauseMillis;
+    }
+
+    public long getOrphanBatchSize() {
+        return orphanBatchSize;
+    }
+
+    public void setOrphanBatchSize(int orphanBatchSize) {
+        this.orphanBatchSize = orphanBatchSize;
     }
 
     public long getOrphanEvictionFrequency() {
@@ -119,20 +147,28 @@ public class TerracottaDistributedMapCacheManager implements ICacheManager {
         this.concurrency = concurrency;
     }
 
-    public int getMaxTTIInSeconds() {
-        return maxTTIInSeconds;
+    public long getMaxTTIInMillis() {
+        return maxTTIInMillis;
     }
 
-    public void setMaxTTIInSeconds(int maxTTIInSeconds) {
-        this.maxTTIInSeconds = maxTTIInSeconds;
+    public void setMaxTTIInMillis(long maxTTIInMillis) {
+        this.maxTTIInMillis = maxTTIInMillis;
     }
 
-    public int getMaxTTLInSeconds() {
-        return maxTTLInSeconds;
+    public long getMaxTTLInMillis() {
+        return maxTTLInMillis;
     }
 
-    public void setMaxTTLInSeconds(int maxTTLInSeconds) {
-        this.maxTTLInSeconds = maxTTLInSeconds;
+    public void setMaxTTLInMillis(long maxTTLInMillis) {
+        this.maxTTLInMillis = maxTTLInMillis;
+    }
+
+    public long getEvictorSleepInMillis() {
+        return evictorSleepInMillis;
+    }
+
+    public void setEvictorSleepInMillis(long evictorSleepInMillis) {
+        this.evictorSleepInMillis = evictorSleepInMillis;
     }
 
     @Override
@@ -167,7 +203,7 @@ public class TerracottaDistributedMapCacheManager implements ICacheManager {
 
     @Override
     public <K> Set<K> keySet() {
-        return cache.keySet();
+        return cache.getKeys();
     }
 
     @Override
