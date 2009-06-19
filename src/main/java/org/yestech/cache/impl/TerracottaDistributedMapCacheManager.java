@@ -16,6 +16,7 @@ package org.yestech.cache.impl;
 import org.yestech.cache.ICacheManager;
 import org.yestech.lib.util.Pair;
 import org.terracotta.modules.annotations.Root;
+import org.terracotta.modules.annotations.InstrumentedClass;
 import org.terracotta.modules.dmap.DistributedMap;
 import org.terracotta.modules.dmap.DistributedMapBuilder;
 
@@ -30,6 +31,7 @@ import static com.google.common.collect.Sets.newHashSet;
  * @version $Revision: $
  */
 @SuppressWarnings("unchecked")
+@InstrumentedClass
 public class TerracottaDistributedMapCacheManager implements ICacheManager {
 
     @Root
