@@ -34,8 +34,8 @@ public class TerracottaDistributedMapCacheManager implements ICacheManager {
 
     @Root
     private DistributedMap cache;
-    private long maxTTIInMillis;
-    private long maxTTLInMillis;
+    private int maxTTIInSeconds;
+    private int maxTTLInSeconds;
     private long evictorSleepInMillis;
     private int concurrency;
     private long orphanBatchPauseMillis;
@@ -48,12 +48,12 @@ public class TerracottaDistributedMapCacheManager implements ICacheManager {
     @PostConstruct
     public void start() {
         DistributedMapBuilder builder = new DistributedMapBuilder();
-//        if (maxTTIInMillis > 0) {
-//            builder = builder.setMaxTTIMillis(maxTTIInMillis);
-//        }
-//        if (maxTTLInMillis > 0) {
-//            builder = builder.setMaxTTLMillis(maxTTLInMillis);
-//        }
+        if (maxTTIInSeconds > 0) {
+            builder = builder.setMaxTTISeconds(maxTTIInSeconds);
+        }
+        if (maxTTLInSeconds > 0) {
+            builder = builder.setMaxTTLSeconds(maxTTLInSeconds);
+        }
 //        if (evictorSleepInMillis > 0) {
 //            builder = builder.setEvictorSleepMillis(evictorSleepInMillis);
 //        }
@@ -147,20 +147,20 @@ public class TerracottaDistributedMapCacheManager implements ICacheManager {
         this.concurrency = concurrency;
     }
 
-    public long getMaxTTIInMillis() {
-        return maxTTIInMillis;
+    public int getMaxTTIInSeconds() {
+        return maxTTIInSeconds;
     }
 
-    public void setMaxTTIInMillis(long maxTTIInMillis) {
-        this.maxTTIInMillis = maxTTIInMillis;
+    public void setMaxTTIInSeconds(int maxTTIInSeconds) {
+        this.maxTTIInSeconds = maxTTIInSeconds;
     }
 
-    public long getMaxTTLInMillis() {
-        return maxTTLInMillis;
+    public int getMaxTTLInSeconds() {
+        return maxTTLInSeconds;
     }
 
-    public void setMaxTTLInMillis(long maxTTLInMillis) {
-        this.maxTTLInMillis = maxTTLInMillis;
+    public void setMaxTTLInSeconds(int maxTTLInSeconds) {
+        this.maxTTLInSeconds = maxTTLInSeconds;
     }
 
     public long getEvictorSleepInMillis() {
