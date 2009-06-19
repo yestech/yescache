@@ -7,6 +7,11 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>YES Cache</name>
     <url>http://yestech.org</url>
+    <properties>
+        <tim-annotations.version>1.4.0-SNAPSHOT</tim-annotations.version>
+        <tim-map-evictor.version>1.2.0-SNAPSHOT</tim-map-evictor.version>
+        <tim-terracotta-cache>1.2.1</tim-terracotta-cache>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -72,13 +77,13 @@
         <dependency>
             <groupId>org.terracotta.modules</groupId>
             <artifactId>tim-annotations</artifactId>
-            <version>1.2.3</version>
+            <version>${tim-annotations.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.terracotta.modules</groupId>
             <artifactId>tim-terracotta-cache</artifactId>
-            <version>1.2.1</version>
+            <version>${tim-terracotta-cache}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -90,7 +95,7 @@
         <dependency>
             <groupId>org.terracotta.modules</groupId>
             <artifactId>tim-map-evictor</artifactId>
-            <version>1.1.2</version>
+            <version>${tim-map-evictor.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
