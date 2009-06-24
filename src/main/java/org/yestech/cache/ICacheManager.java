@@ -21,22 +21,22 @@ import java.util.Set;
  * @author Artie Copeland
  * @version $Revision: $
  */
-public interface ICacheManager {
+public interface ICacheManager<K, V> {
 
-    <K> boolean contains(K k);
+    boolean contains(K k);
 
-    <V,K> void put(Pair<K, V> entry);
+    void put(Pair<K, V> entry);
 
-    <V,K> void put(K k, V v);
+    void put(K k, V v);
 
-    <V,K> V get(K key);
+    V get(K key);
 
     void flushAll();
 
-    <K> void flush(K key);
+    void flush(K key);
 
-    <K> Set<K> keySet();
+    Set<K> keySet();
 
-    <V> Set<V> getAll();
+    Set<V> getAll();
 
 }
