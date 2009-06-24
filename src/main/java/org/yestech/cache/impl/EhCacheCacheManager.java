@@ -28,7 +28,8 @@ import java.util.Set;
  * @version $Revision: $
  */
 @SuppressWarnings("unchecked")
-public class EhCacheCacheManager implements ICacheManager {
+public class EhCacheCacheManager<K,V> implements ICacheManager<K,V> {
+
     final private static Logger logger = LoggerFactory.getLogger(EhCacheCacheManager.class);
 
     private Cache cache;
@@ -43,22 +44,22 @@ public class EhCacheCacheManager implements ICacheManager {
     }
 
     @Override
-    public <K> boolean contains(K k) {
+    public boolean contains(K k) {
         return cache.isKeyInCache(k);
     }
 
     @Override
-    public <V, K> void put(Pair<K, V> entry) {
+    public void put(Pair<K, V> entry) {
         put(entry.getFirst(), entry.getSecond());
     }
 
     @Override
-    public <V, K> void put(K k, V v) {
+    public void put(K k, V v) {
         cache.put(new Element(k, v));
     }
 
     @Override
-    public <V, K> V get(K key) {
+    public V get(K key) {
         long start = System.currentTimeMillis();
 
         Element element = cache.get(key);
@@ -76,6 +77,7 @@ public class EhCacheCacheManager implements ICacheManager {
             }
             flush(key);
         }
+        assert element != null;
         return (V) element.getValue();
     }
 
@@ -85,17 +87,17 @@ public class EhCacheCacheManager implements ICacheManager {
     }
 
     @Override
-    public <K> void flush(K key) {
+    public void flush(K key) {
         cache.remove(key);
     }
 
     @Override
-    public <K> Set<K> keySet() {
+    public Set<K> keySet() {
         return (Set<K>)cache.getKeys();
     }
 
     @Override
-    public <V> Set<V> getAll() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Set<V> getAll() {
+        return null;
     }
 }

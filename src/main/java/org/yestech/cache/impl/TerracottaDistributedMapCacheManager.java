@@ -32,7 +32,7 @@ import static com.google.common.collect.Sets.newHashSet;
  */
 @SuppressWarnings("unchecked")
 @InstrumentedClass
-public class TerracottaDistributedMapCacheManager implements ICacheManager {
+public class TerracottaDistributedMapCacheManager<K,V> implements ICacheManager<K,V> {
 
     @Root
     private DistributedMap cache;
@@ -174,22 +174,22 @@ public class TerracottaDistributedMapCacheManager implements ICacheManager {
     }
 
     @Override
-    public <K> boolean contains(K k) {
+    public boolean contains(K k) {
         return cache.containsKey(k);
     }
 
     @Override
-    public <V, K> void put(Pair<K, V> entry) {
+    public void put(Pair<K, V> entry) {
         put(entry.getFirst(), entry.getSecond());
     }
 
     @Override
-    public <V, K> void put(K k, V v) {
+    public void put(K k, V v) {
         cache.put(k, v);
     }
 
     @Override
-    public <V, K> V get(K key) {
+    public V get(K key) {
         return (V) cache.get(key);
     }
 
@@ -199,23 +199,23 @@ public class TerracottaDistributedMapCacheManager implements ICacheManager {
     }
 
     @Override
-    public <K> void flush(K key) {
+    public void flush(K key) {
         cache.remove(key);
     }
 
     @Override
-    public <K> Set<K> keySet() {
+    public Set<K> keySet() {
         return cache.keySet();
     }
 
     @Override
-    public <V> Set<V> getAll() {
-        Set values = newHashSet();
-        Set<Object> keys = keySet();
+    public Set<V> getAll() {
+        Set<V> values = newHashSet();
+        Set<K> keys = keySet();
         if (keys == null) {
             return null;
         } else {
-            for (Object key : keys) {
+            for (K key : keys) {
                 values.add(get(key));
             }
         }

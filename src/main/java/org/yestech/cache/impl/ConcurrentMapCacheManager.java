@@ -28,7 +28,7 @@ import java.util.Set;
  * @version $Revision: $
  */
 @SuppressWarnings("unchecked")
-public class ConcurrentMapCacheManager implements ICacheManager {
+public class ConcurrentMapCacheManager<K,V> implements ICacheManager<K,V> {
 
     @Root
     private ConcurrentMap cache;
@@ -44,26 +44,26 @@ public class ConcurrentMapCacheManager implements ICacheManager {
 
     @Override
     @AutolockRead
-    public <K> boolean contains(K k) {
+    public boolean contains(K k) {
         return cache.containsKey(k);
     }
 
 
     @Override
     @AutolockWrite
-    public <V, K> void put(Pair<K, V> entry) {
+    public void put(Pair<K, V> entry) {
         put(entry.getFirst(), entry.getSecond());
     }
 
     @Override
     @AutolockWrite
-    public <V, K> void put(K k, V v) {
+    public void put(K k, V v) {
         cache.put(k, v);
     }
 
     @Override
     @AutolockRead
-    public <V, K> V get(K key) {
+    public V get(K key) {
         return (V) cache.get(key);
     }
 
@@ -75,19 +75,19 @@ public class ConcurrentMapCacheManager implements ICacheManager {
 
     @Override
     @AutolockWrite
-    public <K> void flush(K key) {
+    public void flush(K key) {
         cache.remove(key);
     }
 
     @Override
     @AutolockRead
-    public <K> Set<K> keySet() {
+    public Set<K> keySet() {
         return (Set<K>)cache.keySet();
     }
 
     @Override
     @AutolockRead
-    public <V> Set<V> getAll() {
+    public Set<V> getAll() {
         return (Set<V>)cache.entrySet();
     }
 }

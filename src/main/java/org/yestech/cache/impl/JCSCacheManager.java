@@ -28,7 +28,7 @@ import java.util.Set;
  * @version $Revision: $
  */
 @SuppressWarnings("unchecked")
-public class JCSCacheManager implements ICacheManager
+public class JCSCacheManager<K,V> implements ICacheManager<K,V>
 {
     final private static Logger logger = LoggerFactory.getLogger(JCSCacheManager.class);
     private JCS cache;
@@ -49,7 +49,7 @@ public class JCSCacheManager implements ICacheManager
     }
 
     @Override
-    public <V, K> V get(K key)
+    public V get(K key)
     {
         long start = System.currentTimeMillis();
         Object cachedValue = cache.get(key);
@@ -84,7 +84,7 @@ public class JCSCacheManager implements ICacheManager
     }
 
     @Override
-    public <K> void flush(K key)
+    public void flush(K key)
     {
         try
         {
@@ -97,12 +97,12 @@ public class JCSCacheManager implements ICacheManager
     }
 
     @Override
-    public <V, K> void put(Pair<K, V> entry) {
+    public void put(Pair<K, V> entry) {
         put(entry.getFirst(), entry.getSecond());
     }
 
     @Override
-    public <V, K> void put(K k, V v) {
+    public void put(K k, V v) {
         try
         {
             cache.put(k, v);
@@ -114,17 +114,17 @@ public class JCSCacheManager implements ICacheManager
     }
 
     @Override
-    public <K> boolean contains(K k) {
+    public boolean contains(K k) {
         return cache.get(k) != null;
     }
 
     @Override
-    public <K> Set<K> keySet() {
+    public Set<K> keySet() {
         throw new UnsupportedOperationException("not yet implemented...");
     }
 
     @Override
-    public <V> Set<V> getAll() {
+    public Set<V> getAll() {
         throw new UnsupportedOperationException("not yet implemented...");
     }
 }

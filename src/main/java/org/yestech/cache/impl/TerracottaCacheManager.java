@@ -31,7 +31,8 @@ import java.util.Set;
  * @version $Revision: $
  */
 @SuppressWarnings("unchecked")
-public class TerracottaCacheManager implements ICacheManager {
+public class TerracottaCacheManager<K,V> implements ICacheManager<K,V> {
+
     final private static Logger logger = LoggerFactory.getLogger(TerracottaCacheManager.class);
 
     private String fqn;
@@ -57,7 +58,7 @@ public class TerracottaCacheManager implements ICacheManager {
     }
 
     @Override
-    public <K> boolean contains(K k) {
+    public boolean contains(K k) {
         try {
             return cache.exists(fqn, k);
         } catch (CacheException e) {
@@ -66,12 +67,12 @@ public class TerracottaCacheManager implements ICacheManager {
     }
 
     @Override
-    public <V, K> void put(Pair<K, V> entry) {
+    public void put(Pair<K, V> entry) {
         put(entry.getFirst(), entry.getSecond());
     }
 
     @Override
-    public <V, K> void put(K k, V v) {
+    public void put(K k, V v) {
         try {
             cache.put(fqn, k, v);
         } catch (CacheException e) {
@@ -80,7 +81,7 @@ public class TerracottaCacheManager implements ICacheManager {
     }
 
     @Override
-    public <V, K> V get(K key) {
+    public V get(K key) {
         long start = System.currentTimeMillis();
         Object cachedValue = null;
         try {
@@ -112,7 +113,7 @@ public class TerracottaCacheManager implements ICacheManager {
     }
 
     @Override
-    public <K> void flush(K key) {
+    public void flush(K key) {
         try {
             cache.remove(fqn, key);
         } catch (CacheException e) {
@@ -121,7 +122,7 @@ public class TerracottaCacheManager implements ICacheManager {
     }
 
     @Override
-    public <K> Set<K> keySet() {
+    public Set<K> keySet() {
         try {
             return (Set<K>) cache.getKeys(fqn);
         } catch (CacheException e) {
@@ -131,13 +132,13 @@ public class TerracottaCacheManager implements ICacheManager {
     }
 
     @Override
-    public <V> Set<V> getAll() {
-        Set values = newHashSet();
-        Set<Object> keys = keySet();
+    public Set<V> getAll() {
+        Set<V> values = newHashSet();
+        Set<K> keys = keySet();
         if (keys == null) {
             return null;
         } else {
-            for (Object key : keys) {
+            for (K key : keys) {
                 values.add(get(key));
             }
         }

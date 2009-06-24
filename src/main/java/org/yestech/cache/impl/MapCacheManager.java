@@ -30,7 +30,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @version $Revision: $
  */
 @SuppressWarnings("unchecked")
-public class MapCacheManager implements ICacheManager {
+public class MapCacheManager<K,V> implements ICacheManager<K,V> {
 
     @Root
     private Map cache;
@@ -49,7 +49,7 @@ public class MapCacheManager implements ICacheManager {
 
     @Override
     @AutolockRead
-    public <K> boolean contains(K k) {
+    public boolean contains(K k) {
         readLock.lock();
         try {
             return cache.containsKey(k);
@@ -61,13 +61,13 @@ public class MapCacheManager implements ICacheManager {
 
     @Override
     @AutolockWrite
-    public <V, K> void put(Pair<K, V> entry) {
+    public void put(Pair<K, V> entry) {
         put(entry.getFirst(), entry.getSecond());
     }
 
     @Override
     @AutolockWrite
-    public <V, K> void put(K k, V v) {
+    public void put(K k, V v) {
         writeLock.lock();
         try {
             cache.put(k, v);
@@ -78,7 +78,7 @@ public class MapCacheManager implements ICacheManager {
 
     @Override
     @AutolockRead
-    public <V, K> V get(K key) {
+    public V get(K key) {
         readLock.lock();
         try {
             return (V) cache.get(key);
@@ -100,7 +100,7 @@ public class MapCacheManager implements ICacheManager {
 
     @Override
     @AutolockWrite
-    public <K> void flush(K key) {
+    public void flush(K key) {
         writeLock.lock();
         try {
             cache.remove(key);
@@ -110,7 +110,7 @@ public class MapCacheManager implements ICacheManager {
     }
 
     @Override
-    public <K> Set<K> keySet() {
+    public Set<K> keySet() {
         readLock.lock();
         try {
             return (Set<K>) cache.keySet();
@@ -121,7 +121,7 @@ public class MapCacheManager implements ICacheManager {
     }
 
     @Override
-    public <V> Set<V> getAll() {
+    public Set<V> getAll() {
         readLock.lock();
         try {
             return (Set<V>) cache.entrySet();
