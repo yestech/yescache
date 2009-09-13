@@ -45,7 +45,6 @@
     </developers>
     <properties>
         <tim-annotations.version>1.4.0</tim-annotations.version>
-        <tim-map-evictor.version>1.2.0</tim-map-evictor.version>
         <tim-distributed-cache>1.2.0</tim-distributed-cache>
         <tim-tree-map-cache>1.4.0</tim-tree-map-cache>
     </properties>
