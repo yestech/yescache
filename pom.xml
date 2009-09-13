@@ -1,3 +1,4 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -7,10 +8,45 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>YES Cache</name>
     <url>http://yestech.org</url>
+    <scm>
+        <connection>scm:git:http://github.com/yestech/yescache/tree/master</connection>
+        <developerConnection>scm:git:http://github.com/yestech/yescache/tree/master</developerConnection>
+    </scm>
+    <organization>
+        <name>YES Technology Association</name>
+        <url>http://yestech.org</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>LGPLv3</name>
+            <url>http://opensource.org/licenses/lgpl-3.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>artie</id>
+            <name>Artie Copeland</name>
+            <email>artie@yestech.org</email>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>aj</id>
+            <name>AJ Wright</name>
+            <email>ayax79@gmail.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
     <properties>
         <tim-annotations.version>1.4.0</tim-annotations.version>
         <tim-map-evictor.version>1.2.0</tim-map-evictor.version>
-        <tim-terracotta-cache>1.2.1</tim-terracotta-cache>
+        <tim-distributed-cache>1.2.0</tim-distributed-cache>
+        <tim-tree-map-cache>1.4.0</tim-tree-map-cache>
     </properties>
     <dependencies>
         <dependency>
@@ -75,27 +111,27 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.terracotta.modules.beta</groupId>
+            <groupId>org.terracotta.modules</groupId>
             <artifactId>tim-annotations</artifactId>
             <version>${tim-annotations.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.terracotta.modules</groupId>
-            <artifactId>tim-terracotta-cache</artifactId>
-            <version>${tim-terracotta-cache}</version>
+            <artifactId>tim-distributed-cache</artifactId>
+            <version>${tim-distributed-cache}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.terracotta.modules</groupId>
+            <artifactId>tim-tree-map-cache</artifactId>
+            <version>${tim-tree-map-cache}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
             <version>1.6.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.terracotta.modules.beta</groupId>
-            <artifactId>tim-map-evictor</artifactId>
-            <version>${tim-map-evictor.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -142,11 +178,36 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.0-alpha-4</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
     </profiles>
     <pluginRepositories>
+        <pluginRepository>
+            <id>yestech-snapshots</id>
+            <name>YES Technology Snapshot Repository</name>
+            <url>http://oss.sonatype.org/content/repositories/github-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
         <pluginRepository>
             <id>codehaus</id>
             <url>http://repository.codehaus.org</url>
@@ -164,20 +225,18 @@
     </pluginRepositories>
     <repositories>
         <repository>
-            <id>yestech.thirdparty</id>
-            <url>http://repo.yestech.org/content/repositories/thirdparty</url>
-        </repository>
-        <repository>
-            <id>blackbox.thirdparty</id>
-            <url>http://blackbox.yestech.org/content/repositories/thirdparty</url>
+            <id>yestech-snapshots</id>
+            <name>YES Technology Snapshot Repository</name>
+            <url>http://oss.sonatype.org/content/repositories/github-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
         </repository>
-        <repository>
+<!--
+<repository>
             <id>terracotta</id>
             <url>http://repo.terracotta.org/maven2/</url>
             <releases>
@@ -187,6 +246,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+-->
         <repository>
             <id>terracotta-repository</id>
             <url>http://www.terracotta.org/download/reflector/maven2</url>
@@ -200,14 +260,14 @@
     </repositories>
     <distributionManagement>
         <repository>
-            <id>yestech.release</id>
-            <name>Yestech release repository</name>
-            <url>http://repo.yestech.org/content/repositories/releases</url>
+            <id>yestech-releases</id>
+            <name>YES Technology Release Repository</name>
+            <url>http://oss.sonatype.org/content/repositories/github-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>yestech.snapshots</id>
-            <name>Yestech snapshots repository</name>
-            <url>http://repo.yestech.org/content/repositories/snapshots</url>
+            <id>yestech-snapshots</id>
+            <name>YES Technology Snapshot Repository</name>
+            <url>http://oss.sonatype.org/content/repositories/github-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
