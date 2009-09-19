@@ -13,6 +13,7 @@
  */
 package org.yestech.cache.impl;
 
+import java.util.Map;
 import org.yestech.cache.ICacheManager;
 import org.yestech.lib.util.Pair;
 import org.terracotta.modules.annotations.Root;
@@ -57,34 +58,13 @@ public class TerracottaDistributedCacheManager<K,V> implements ICacheManager<K,V
         if (maxTTLInSeconds > 0) {
             builder = builder.setMaxTTLSeconds(maxTTLInSeconds);
         }
-//        if (evictorSleepInMillis > 0) {
-//            builder = builder.setEvictorSleepMillis(evictorSleepInMillis);
-//        }
-//        if (concurrency > 0) {
-//            builder = builder.setConcurrency(concurrency);
-//        }
-//        if (orphanBatchPauseMillis > 0) {
-//            builder = builder.setOrphanBatchPauseMillis(orphanBatchPauseMillis);
-//        }
-//        if (orphanBatchSize > 0) {
-//            builder = builder.setOrphanBatchSize(orphanBatchSize);
-//        }
         if (orphanEvictionEnabled) {
             builder = builder.setOrphanEvictionEnabled(orphanEvictionEnabled);
         }
-//        if (orphanEvictionFrequency > 0) {
-//            builder = builder.setOrphanEvictionFrequency(orphanEvictionFrequency);
-//        }
-//        if (evictorLogging) {
-//            builder = builder.setEvictorLoggingEnabled(evictorLogging);
-//        }
         if (enableLogging) {
             builder = builder.setLoggingEnabled(enableLogging);
         }
         cache = builder.newCache();
-        if (cache != null) {
-//            cache.start();
-        }
     }
 
     @PreDestroy
@@ -180,13 +160,18 @@ public class TerracottaDistributedCacheManager<K,V> implements ICacheManager<K,V
     }
 
     @Override
+    public void putAll(Map<K, V> collection) {
+        cache.putAll(collection);
+    }
+
+    @Override
     public void put(Pair<K, V> entry) {
         put(entry.getFirst(), entry.getSecond());
     }
 
     @Override
     public void put(K k, V v) {
-        cache.put(k, v);
+        cache.putNoReturn(k, v);
     }
 
     @Override
@@ -201,7 +186,7 @@ public class TerracottaDistributedCacheManager<K,V> implements ICacheManager<K,V
 
     @Override
     public void flush(K key) {
-        cache.remove(key);
+        cache.removeNoReturn(key);
     }
 
     @Override

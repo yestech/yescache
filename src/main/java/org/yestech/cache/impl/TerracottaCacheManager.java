@@ -13,6 +13,8 @@
  */
 package org.yestech.cache.impl;
 
+import java.util.Map;
+import java.util.Map.Entry;
 import static com.google.common.collect.Sets.newHashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,8 @@ import org.yestech.cache.ICacheManager;
 import org.yestech.lib.util.Pair;
 
 import java.util.Set;
+import org.terracotta.modules.annotations.InstrumentedClass;
+import org.terracotta.modules.annotations.Root;
 
 /**
  * {@link org.yestech.cache.ICacheManager} that allows access to Terracotta
@@ -31,12 +35,14 @@ import java.util.Set;
  * @version $Revision: $
  */
 @SuppressWarnings("unchecked")
+@InstrumentedClass
 public class TerracottaCacheManager<K,V> implements ICacheManager<K,V> {
 
     final private static Logger logger = LoggerFactory.getLogger(TerracottaCacheManager.class);
 
     private String fqn;
 
+    @Root
     private ITerracottaCache cache;
 
     public ITerracottaCache getCache() {
@@ -63,6 +69,13 @@ public class TerracottaCacheManager<K,V> implements ICacheManager<K,V> {
             return cache.exists(fqn, k);
         } catch (CacheException e) {
             return false;
+        }
+    }
+
+    @Override
+    public void putAll(Map<K, V> collection) {
+        for (Entry<K,V> entry: collection.entrySet()) {
+            put(entry.getKey(), entry.getValue());
         }
     }
 

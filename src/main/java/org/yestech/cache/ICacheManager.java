@@ -13,6 +13,7 @@
  */
 package org.yestech.cache;
 
+import java.util.Map;
 import org.yestech.lib.util.Pair;
 
 import java.util.Set;
@@ -28,6 +29,10 @@ public interface ICacheManager<K, V> {
     void put(Pair<K, V> entry);
 
     void put(K k, V v);
+
+    void putAll(Map<K,V> collection);
+
+//    void putAll(Collection<IPair<K,V>> collection);
 
     V get(K key);
 

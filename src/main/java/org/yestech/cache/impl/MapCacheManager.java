@@ -24,12 +24,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import org.terracotta.modules.annotations.InstrumentedClass;
 
 /**
  * @author Artie Copeland
  * @version $Revision: $
  */
 @SuppressWarnings("unchecked")
+@InstrumentedClass
 public class MapCacheManager<K,V> implements ICacheManager<K,V> {
 
     @Root
@@ -58,6 +60,17 @@ public class MapCacheManager<K,V> implements ICacheManager<K,V> {
         }
     }
 
+
+    @Override
+    @AutolockWrite
+    public void putAll(Map<K, V> collection) {
+        writeLock.lock();
+        try {
+            cache.putAll(collection);
+        } finally {
+            writeLock.unlock();
+        }
+    }
 
     @Override
     @AutolockWrite

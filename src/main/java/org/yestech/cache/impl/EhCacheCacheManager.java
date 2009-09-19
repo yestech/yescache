@@ -13,6 +13,8 @@
  */
 package org.yestech.cache.impl;
 
+import java.util.Map;
+import java.util.Map.Entry;
 import org.yestech.cache.ICacheManager;
 import org.yestech.lib.util.Pair;
 import org.springframework.beans.factory.annotation.Required;
@@ -46,6 +48,13 @@ public class EhCacheCacheManager<K,V> implements ICacheManager<K,V> {
     @Override
     public boolean contains(K k) {
         return cache.isKeyInCache(k);
+    }
+
+    @Override
+    public void putAll(Map<K, V> collection) {
+        for (Entry<K,V> entry: collection.entrySet()) {
+            put(entry.getKey(), entry.getValue());
+        }
     }
 
     @Override

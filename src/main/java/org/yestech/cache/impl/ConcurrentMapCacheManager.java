@@ -13,6 +13,7 @@
  */
 package org.yestech.cache.impl;
 
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Required;
 import org.terracotta.modules.annotations.AutolockRead;
 import org.terracotta.modules.annotations.AutolockWrite;
@@ -22,12 +23,14 @@ import org.yestech.lib.util.Pair;
 
 import java.util.concurrent.ConcurrentMap;
 import java.util.Set;
+import org.terracotta.modules.annotations.InstrumentedClass;
 
 /**
  * @author Artie Copeland
  * @version $Revision: $
  */
 @SuppressWarnings("unchecked")
+@InstrumentedClass
 public class ConcurrentMapCacheManager<K,V> implements ICacheManager<K,V> {
 
     @Root
@@ -50,6 +53,11 @@ public class ConcurrentMapCacheManager<K,V> implements ICacheManager<K,V> {
 
 
     @Override
+    public void putAll(Map<K, V> collection) {
+        cache.putAll(collection);
+    }
+
+    @Override
     @AutolockWrite
     public void put(Pair<K, V> entry) {
         put(entry.getFirst(), entry.getSecond());
@@ -58,7 +66,7 @@ public class ConcurrentMapCacheManager<K,V> implements ICacheManager<K,V> {
     @Override
     @AutolockWrite
     public void put(K k, V v) {
-        cache.put(k, v);
+        cache.putIfAbsent(k, v);
     }
 
     @Override

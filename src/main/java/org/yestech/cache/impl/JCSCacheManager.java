@@ -13,6 +13,8 @@
  */
 package org.yestech.cache.impl;
 
+import java.util.Map;
+import java.util.Map.Entry;
 import org.apache.jcs.JCS;
 import org.apache.jcs.access.exception.CacheException;
 import org.yestech.cache.ICacheManager;
@@ -93,6 +95,13 @@ public class JCSCacheManager<K,V> implements ICacheManager<K,V>
         catch (CacheException e)
         {
             logger.error("error flushing key: " + key, e);
+        }
+    }
+
+    @Override
+    public void putAll(Map<K, V> collection) {
+        for (Entry<K,V> entry: collection.entrySet()) {
+            put(entry.getKey(), entry.getValue());
         }
     }
 
