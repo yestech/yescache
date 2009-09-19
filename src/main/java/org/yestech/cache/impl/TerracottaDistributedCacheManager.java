@@ -25,6 +25,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.terracotta.cache.CacheConfig;
 import static com.google.common.collect.Sets.newHashSet;
 
@@ -40,14 +41,12 @@ public class TerracottaDistributedCacheManager<K,V> implements ICacheManager<K,V
     private DistributedCache cache;
     private int maxTTIInSeconds;
     private int maxTTLInSeconds;
-    private long evictorSleepInMillis;
-    private int concurrency;
-    private long orphanBatchPauseMillis;
-    private int orphanBatchSize;
     private boolean orphanEvictionEnabled;
     private int orphanEvictionFrequency;
-    private boolean evictorLogging;
     private boolean enableLogging;
+    private int targetMaxInMemoryCount;
+    private int targetMaxTotalCount;
+    private String name;
 
     @PostConstruct
     public void start() {
@@ -61,8 +60,20 @@ public class TerracottaDistributedCacheManager<K,V> implements ICacheManager<K,V
         if (orphanEvictionEnabled) {
             builder = builder.setOrphanEvictionEnabled(orphanEvictionEnabled);
         }
+        if (orphanEvictionFrequency > 0) {
+            builder = builder.setOrphanEvictionPeriod(orphanEvictionFrequency);
+        }
+        if (targetMaxInMemoryCount > 0) {
+            builder = builder.setTargetMaxInMemoryCount(targetMaxInMemoryCount);
+        }
+        if (targetMaxTotalCount > 0) {
+            builder = builder.setTargetMaxTotalCount(targetMaxTotalCount);
+        }
         if (enableLogging) {
             builder = builder.setLoggingEnabled(enableLogging);
+        }
+        if (StringUtils.isNotBlank(name)) {
+            builder.setName(name);
         }
         cache = builder.newCache();
     }
@@ -74,20 +85,28 @@ public class TerracottaDistributedCacheManager<K,V> implements ICacheManager<K,V
         }
     }
 
-    public long getOrphanBatchPauseMillis() {
-        return orphanBatchPauseMillis;
+    public String getName() {
+        return name;
     }
 
-    public void setOrphanBatchPauseMillis(long orphanBatchPauseMillis) {
-        this.orphanBatchPauseMillis = orphanBatchPauseMillis;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public long getOrphanBatchSize() {
-        return orphanBatchSize;
+    public int getTargetMaxInMemoryCount() {
+        return targetMaxInMemoryCount;
     }
 
-    public void setOrphanBatchSize(int orphanBatchSize) {
-        this.orphanBatchSize = orphanBatchSize;
+    public void setTargetMaxInMemoryCount(int targetMaxInMemoryCount) {
+        this.targetMaxInMemoryCount = targetMaxInMemoryCount;
+    }
+
+    public int getTargetMaxTotalCount() {
+        return targetMaxTotalCount;
+    }
+
+    public void setTargetMaxTotalCount(int targetMaxTotalCount) {
+        this.targetMaxTotalCount = targetMaxTotalCount;
     }
 
     public long getOrphanEvictionFrequency() {
@@ -106,28 +125,12 @@ public class TerracottaDistributedCacheManager<K,V> implements ICacheManager<K,V
         this.orphanEvictionEnabled = orphanEvictionEnabled;
     }
 
-    public boolean isEvictorLogging() {
-        return evictorLogging;
-    }
-
-    public void setEvictorLogging(boolean evictorLogging) {
-        this.evictorLogging = evictorLogging;
-    }
-
     public boolean isEnableLogging() {
         return enableLogging;
     }
 
     public void setEnableLogging(boolean enableLogging) {
         this.enableLogging = enableLogging;
-    }
-
-    public int getConcurrency() {
-        return concurrency;
-    }
-
-    public void setConcurrency(int concurrency) {
-        this.concurrency = concurrency;
     }
 
     public int getMaxTTIInSeconds() {
@@ -144,14 +147,6 @@ public class TerracottaDistributedCacheManager<K,V> implements ICacheManager<K,V
 
     public void setMaxTTLInSeconds(int maxTTLInSeconds) {
         this.maxTTLInSeconds = maxTTLInSeconds;
-    }
-
-    public long getEvictorSleepInMillis() {
-        return evictorSleepInMillis;
-    }
-
-    public void setEvictorSleepInMillis(long evictorSleepInMillis) {
-        this.evictorSleepInMillis = evictorSleepInMillis;
     }
 
     @Override
