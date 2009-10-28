@@ -12,7 +12,7 @@ import java.util.Set;
 
 
 /**
- * An implements of a cache using Infinispan {@Cache}.
+ * An implements of a cache using <a href="http://www.jboss.org/infinispan">Infinispan</a> {@link Cache}.
  * 
  */
 @SuppressWarnings("unchecked")
