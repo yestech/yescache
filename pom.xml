@@ -73,7 +73,7 @@
                     <artifactId>xerces</artifactId>
                 </exclusion>
             </exclusions>
-            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.yestech</groupId>
@@ -84,31 +84,31 @@
             <groupId>org.terracotta.modules</groupId>
             <artifactId>tim-annotations</artifactId>
             <version>${tim-annotations.version}</version>
-            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.terracotta.modules</groupId>
             <artifactId>tim-distributed-cache</artifactId>
             <version>${tim-distributed-cache.version}</version>
-            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.terracotta.modules</groupId>
             <artifactId>tim-tree-map-cache</artifactId>
             <version>${tim-tree-map-cache.version}</version>
-            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache-core</artifactId>
             <version>${ehcache.version}</version>
-            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-core</artifactId>
             <version>${infinispan.version}</version>
-            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>
