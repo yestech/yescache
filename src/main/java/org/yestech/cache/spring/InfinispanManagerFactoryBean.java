@@ -13,7 +13,9 @@
  */
 package org.yestech.cache.spring;
 
-import org.apache.jcs.engine.control.CompositeCacheManager;
+import org.infinispan.Cache;
+import org.infinispan.manager.CacheManager;
+import org.infinispan.manager.DefaultCacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -23,19 +25,18 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
-import java.util.Properties;
 
 /**
- * Factory for managing JCS {@link CompositeCacheManager}.
+ * Factory for managing Infinispan Caches
  *
  * @author Artie Copeland
  * @version $Revision: $
  */
-public class JCSManagerFactoryBean implements FactoryBean, InitializingBean, DisposableBean {
-    final private static Logger logger = LoggerFactory.getLogger(JCSManagerFactoryBean.class);
+public class InfinispanManagerFactoryBean implements FactoryBean, InitializingBean, DisposableBean {
+    final private static Logger logger = LoggerFactory.getLogger(InfinispanManagerFactoryBean.class);
 
     private Resource configLocation;
-    private CompositeCacheManager ccm;
+    private CacheManager manager;
 
     @Required
     public void setConfigLocation(Resource configLocation) {
@@ -43,10 +44,8 @@ public class JCSManagerFactoryBean implements FactoryBean, InitializingBean, Dis
     }
 
     public void afterPropertiesSet() throws IOException {
-        ccm = CompositeCacheManager.getUnconfiguredInstance();
-        Properties props = new Properties();
-        props.load(this.configLocation.getInputStream());
-        ccm.configure(props);
+        manager = new DefaultCacheManager(configLocation.getInputStream());
+        manager.start();
     }
 
     public boolean isSingleton() {
@@ -54,20 +53,21 @@ public class JCSManagerFactoryBean implements FactoryBean, InitializingBean, Dis
     }
 
     public void destroy() throws Exception {
-        if (ccm != null) {
-            for (String cacheName : ccm.getCacheNames()) {
-                ccm.freeCache(cacheName);
+        if (manager != null) {
+            for (String cacheName : manager.getCacheNames()) {
+                final Cache<Object, Object> cache = manager.getCache(cacheName);
+                cache.stop();
             }
-            ccm.shutDown();
+            manager.stop();
         }
     }
 
     public Object getObject() throws Exception {
-        return ccm;
+        return manager;
     }
 
     public Class getObjectType() {
-        return (this.ccm != null ? this.ccm.getClass() : CompositeCacheManager.class);
+        return (this.manager != null ? this.manager.getClass() : CacheManager.class);
 
     }
 }

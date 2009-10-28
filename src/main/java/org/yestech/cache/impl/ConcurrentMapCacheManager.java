@@ -26,6 +26,8 @@ import java.util.Set;
 import org.terracotta.modules.annotations.InstrumentedClass;
 
 /**
+ * Cache Manager for {@link java.util.concurrent.ConcurrentMap}
+ *
  * @author Artie Copeland
  * @version $Revision: $
  */

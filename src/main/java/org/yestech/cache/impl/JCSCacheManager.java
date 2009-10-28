@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Required;
 import java.util.Set;
 
 /**
+ * Cache Manager for Apache <a href="http://http://jakarta.apache.org/jcs/">jcs</a>
+ *
  * @author Artie Copeland
  * @version $Revision: $
  */

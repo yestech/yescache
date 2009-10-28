@@ -19,26 +19,32 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
+import org.infinispan.Cache;
+import org.infinispan.config.Configuration;
+import org.infinispan.manager.CacheManager;
 
 import java.io.IOException;
 
 /**
- * Creates a {@link JCS} cache associated with a name provided
- * 
  * @author Artie Copeland
  * @version $Revision: $
  */
-public class JCSFactoryBean implements FactoryBean, InitializingBean {
+public class InfinispanFactoryBean implements FactoryBean, InitializingBean {
 
-    final private static Logger logger = LoggerFactory.getLogger(JCSFactoryBean.class);
+    final private static Logger logger = LoggerFactory.getLogger(InfinispanFactoryBean.class);
 
     private String cacheName;
-    private JCS cache;
+    private Cache cache;
+    private CacheManager manager;
+
+    @Required
+    public void setManager(CacheManager manager) {
+        this.manager = manager;
+    }
 
     /**
      * Set a name for which to retrieve or create a cache instance.
-     * 
-     * Default is the bean name of this JCSFactoryBean.
+     * Default is the bean name of this EhCacheFactoryBean.
      */
     @Required
     public void setCacheName(String cacheName) {
@@ -46,13 +52,8 @@ public class JCSFactoryBean implements FactoryBean, InitializingBean {
     }
 
     public void afterPropertiesSet() throws IOException {
-        try {
-            this.cache = JCS.getInstance(this.cacheName);
-        }
-        catch (org.apache.jcs.access.exception.CacheException e) {
-            logger.error("Error creating cache: " + cacheName, e);
-            throw new RuntimeException("Error creating cache: " + cacheName, e);
-        }
+        this.cache = manager.getCache(cacheName);
+        cache.start();
     }
 
     public Object getObject() {
@@ -60,7 +61,7 @@ public class JCSFactoryBean implements FactoryBean, InitializingBean {
     }
 
     public Class getObjectType() {
-        return (this.cache != null ? this.cache.getClass() : JCS.class);
+        return (this.cache != null ? this.cache.getClass() : Cache.class);
     }
 
     public boolean isSingleton() {

@@ -27,6 +27,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.terracotta.modules.annotations.InstrumentedClass;
 
 /**
+ * Cache Manager for {@link Map}
+ *
  * @author Artie Copeland
  * @version $Revision: $
  */

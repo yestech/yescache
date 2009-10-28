@@ -30,6 +30,8 @@ import org.terracotta.cache.CacheConfig;
 import static com.google.common.collect.Sets.newHashSet;
 
 /**
+ * {@link org.yestech.cache.ICacheManager} that allows access to Terracotta {@link DistributedCache}
+ *
  * @author Artie Copeland
  * @version $Revision: $
  */

@@ -29,7 +29,7 @@ import org.terracotta.modules.annotations.InstrumentedClass;
 import org.terracotta.modules.annotations.Root;
 
 /**
- * {@link org.yestech.cache.ICacheManager} that allows access to Terracotta
+ * {@link org.yestech.cache.ICacheManager} that allows access to {@link ITerracottaCache}
  *
  * @author Artie Copeland
  * @version $Revision: $
