@@ -49,7 +49,7 @@
         </developer>
     </developers>
     <properties>
-        <infinispan.version>4.0.0-SNAPSHOT</infinispan.version>
+        <infinispan.version>4.0.0.CR1</infinispan.version>
         <ehcache.version>1.7.0</ehcache.version>
         <tim-annotations.version>1.4.0</tim-annotations.version>
         <tim-distributed-cache.version>1.2.0</tim-distributed-cache.version>
