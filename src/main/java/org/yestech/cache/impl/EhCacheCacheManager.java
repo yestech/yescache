@@ -72,7 +72,7 @@ public class EhCacheCacheManager<K,V> implements ICacheManager<K,V> {
     @Override
     public V get(K key) {
         long start = System.currentTimeMillis();
-
+        V result = null;
         Element element = cache.get(key);
         if (logger.isDebugEnabled())
         {
@@ -87,9 +87,10 @@ public class EhCacheCacheManager<K,V> implements ICacheManager<K,V> {
                             + "] garbage collected remove from cache");
             }
             flush(key);
+        } else {
+            result = (V) element.getValue();
         }
-        assert element != null;
-        return (V) element.getValue();
+        return result;
     }
 
     @Override
