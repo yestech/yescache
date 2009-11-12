@@ -16,7 +16,7 @@ package org.yestech.cache.impl;
 import org.cliffc.high_scale_lib.NonBlockingHashMap;
 
 /**
- * Cache Manager for Cliff Click's Scalable Non-Blocking HashMap
+ * Cache Manager for Cliff Click's <a href="http://sourceforge.net/projects/high-scale-lib/">Scalable Non-Blocking Collections</a>
  * {@link NonBlockingHashMap}
  *
  * @author Artie Copeland
