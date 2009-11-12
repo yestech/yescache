@@ -13,9 +13,9 @@
  */
 package org.yestech.cache.impl;
 
-import org.springframework.beans.factory.annotation.Required;
 import org.terracotta.modules.annotations.AutolockRead;
 import org.terracotta.modules.annotations.AutolockWrite;
+import org.terracotta.modules.annotations.InstrumentedClass;
 import org.terracotta.modules.annotations.Root;
 import org.yestech.cache.ICacheManager;
 import org.yestech.lib.util.Pair;
@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.terracotta.modules.annotations.InstrumentedClass;
 
 /**
  * Cache Manager for {@link Map}
@@ -37,7 +36,7 @@ import org.terracotta.modules.annotations.InstrumentedClass;
 public class MapCacheManager<K,V> implements ICacheManager<K,V> {
 
     @Root
-    private Map cache;
+    private Map<K,V> cache;
     private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
     private Lock readLock = rwl.readLock();
     private Lock writeLock = rwl.writeLock();
@@ -46,7 +45,6 @@ public class MapCacheManager<K,V> implements ICacheManager<K,V> {
         return cache;
     }
 
-    @Required
     public void setCache(Map cache) {
         this.cache = cache;
     }

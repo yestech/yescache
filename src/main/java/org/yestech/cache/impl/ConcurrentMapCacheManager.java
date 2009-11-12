@@ -13,17 +13,16 @@
  */
 package org.yestech.cache.impl;
 
-import java.util.Map;
-import org.springframework.beans.factory.annotation.Required;
 import org.terracotta.modules.annotations.AutolockRead;
 import org.terracotta.modules.annotations.AutolockWrite;
+import org.terracotta.modules.annotations.InstrumentedClass;
 import org.terracotta.modules.annotations.Root;
 import org.yestech.cache.ICacheManager;
 import org.yestech.lib.util.Pair;
 
-import java.util.concurrent.ConcurrentMap;
+import java.util.Map;
 import java.util.Set;
-import org.terracotta.modules.annotations.InstrumentedClass;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Cache Manager for {@link java.util.concurrent.ConcurrentMap}
@@ -36,13 +35,12 @@ import org.terracotta.modules.annotations.InstrumentedClass;
 public class ConcurrentMapCacheManager<K,V> implements ICacheManager<K,V> {
 
     @Root
-    private ConcurrentMap cache;
+    private ConcurrentMap<K,V> cache;
 
     public ConcurrentMap getCache() {
         return cache;
     }
 
-    @Required
     public void setCache(ConcurrentMap cache) {
         this.cache = cache;
     }

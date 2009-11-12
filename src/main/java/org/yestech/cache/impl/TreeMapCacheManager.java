@@ -13,19 +13,22 @@
  */
 package org.yestech.cache.impl;
 
-import org.cliffc.high_scale_lib.NonBlockingHashMap;
+import org.terracotta.modules.annotations.InstrumentedClass;
+
+import java.util.TreeMap;
 
 /**
- * Cache Manager for Cliff Click's Scalable Non-Blocking HashMap
- * {@link NonBlockingHashMap}
+ * Cache Manager for {@link java.util.TreeMap}
  *
  * @author Artie Copeland
  * @version $Revision: $
  */
 @SuppressWarnings("unchecked")
-public class NonBlockingMapCacheManager<K,V> extends ConcurrentMapCacheManager<K,V> {
-    public NonBlockingMapCacheManager() {
+@InstrumentedClass
+public class TreeMapCacheManager<K,V> extends MapCacheManager<K,V> {
+
+    public TreeMapCacheManager() {
         super();
-        setCache(new NonBlockingHashMap<K,V>());
+        setCache(new TreeMap<K,V>());
     }
 }

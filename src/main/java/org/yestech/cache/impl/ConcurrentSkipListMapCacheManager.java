@@ -13,19 +13,18 @@
  */
 package org.yestech.cache.impl;
 
-import org.cliffc.high_scale_lib.NonBlockingHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
- * Cache Manager for Cliff Click's Scalable Non-Blocking HashMap
- * {@link NonBlockingHashMap}
+ * Cache Manager for Java {@link java.util.concurrent.ConcurrentSkipListMap}
  *
  * @author Artie Copeland
  * @version $Revision: $
  */
 @SuppressWarnings("unchecked")
-public class NonBlockingMapCacheManager<K,V> extends ConcurrentMapCacheManager<K,V> {
-    public NonBlockingMapCacheManager() {
+public class ConcurrentSkipListMapCacheManager<K,V> extends ConcurrentMapCacheManager<K,V> {
+    public ConcurrentSkipListMapCacheManager() {
         super();
-        setCache(new NonBlockingHashMap<K,V>());
+        setCache(new ConcurrentSkipListMap<K,V>());
     }
 }
