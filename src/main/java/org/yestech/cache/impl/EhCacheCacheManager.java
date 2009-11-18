@@ -110,7 +110,7 @@ public class EhCacheCacheManager<K,V> implements ICacheManager<K,V> {
     }
 
     @Override
-    public Collection<V> getAll() {
+    public Collection<V> values() {
         return null;
     }
 }

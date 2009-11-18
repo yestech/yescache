@@ -135,7 +135,7 @@ public class JCSCacheManager<K,V> implements ICacheManager<K,V>
     }
 
     @Override
-    public Collection<V> getAll() {
+    public Collection<V> values() {
         throw new UnsupportedOperationException("not yet implemented...");
     }
 }

@@ -95,7 +95,7 @@ public class ConcurrentMapCacheManager<K,V> implements ICacheManager<K,V> {
 
     @Override
     @AutolockRead
-    public Collection<V> getAll() {
+    public Collection<V> values() {
         return cache.values();
     }
 }

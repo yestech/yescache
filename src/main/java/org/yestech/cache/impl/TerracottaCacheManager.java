@@ -147,7 +147,7 @@ public class TerracottaCacheManager<K,V> implements ICacheManager<K,V> {
     }
 
     @Override
-    public Collection<V> getAll() {
+    public Collection<V> values() {
         Set<V> values = newHashSet();
         Collection<K> keys = keys();
         if (keys == null) {

@@ -99,7 +99,7 @@ public class MemcachedAsynchronousCacheManager<V> implements ICacheManager<Strin
     }
 
     @Override
-    public Collection<V> getAll() {
+    public Collection<V> values() {
         throw new UnsupportedOperationException("Not available");
     }
 }
