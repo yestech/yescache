@@ -17,6 +17,7 @@ import java.util.Map;
 import org.yestech.lib.util.Pair;
 
 import java.util.Set;
+import java.util.Collection;
 
 /**
  * @author Artie Copeland
@@ -40,8 +41,8 @@ public interface ICacheManager<K, V> {
 
     void flush(K key);
 
-    Set<K> keySet();
+    Collection<K> keys();
 
-    Set<V> getAll();
+    Collection<V> getAll();
 
 }

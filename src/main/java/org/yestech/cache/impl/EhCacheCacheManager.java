@@ -24,6 +24,7 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 
 import java.util.Set;
+import java.util.Collection;
 
 /**
  * Cache Manager for <a href="http://ehcache.org">ehcache</a>
@@ -104,12 +105,12 @@ public class EhCacheCacheManager<K,V> implements ICacheManager<K,V> {
     }
 
     @Override
-    public Set<K> keySet() {
-        return (Set<K>)cache.getKeys();
+    public Collection<K> keys() {
+        return cache.getKeys();
     }
 
     @Override
-    public Set<V> getAll() {
+    public Collection<V> getAll() {
         return null;
     }
 }

@@ -8,7 +8,7 @@ import org.yestech.cache.ICacheManager;
 import org.yestech.lib.util.Pair;
 
 import java.util.Map;
-import java.util.Set;
+import java.util.Collection;
 
 
 /**
@@ -94,12 +94,12 @@ public class MemcachedSynchronousCacheManager<V> implements ICacheManager<String
     }
 
     @Override
-    public Set<String> keySet() {
+    public Collection<String> keys() {
         throw new UnsupportedOperationException("Not available");
     }
 
     @Override
-    public Set<V> getAll() {
+    public Collection<V> getAll() {
         throw new UnsupportedOperationException("Not available");
     }
 }

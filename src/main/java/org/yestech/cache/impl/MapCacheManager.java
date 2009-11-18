@@ -22,6 +22,7 @@ import org.yestech.lib.util.Pair;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.Collection;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -123,10 +124,10 @@ public class MapCacheManager<K,V> implements ICacheManager<K,V> {
     }
 
     @Override
-    public Set<K> keySet() {
+    public Collection<K> keys() {
         readLock.lock();
         try {
-            return (Set<K>) cache.keySet();
+            return cache.keySet();
         } finally {
             readLock.unlock();
         }
@@ -134,10 +135,10 @@ public class MapCacheManager<K,V> implements ICacheManager<K,V> {
     }
 
     @Override
-    public Set<V> getAll() {
+    public Collection<V> getAll() {
         readLock.lock();
         try {
-            return (Set<V>) cache.entrySet();
+            return cache.values();
         } finally {
             readLock.unlock();
         }

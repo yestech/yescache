@@ -9,6 +9,7 @@ import org.infinispan.Cache;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.Collection;
 
 
 /**
@@ -82,12 +83,12 @@ public class InfinispanCacheManager<K, V> implements ICacheManager<K, V> {
     }
 
     @Override
-    public Set<K> keySet() {
-        return (Set<K>) cache.keySet();
+    public Collection<K> keys() {
+        return cache.keySet();
     }
 
     @Override
-    public Set<V> getAll() {
+    public Collection<V> getAll() {
         return null;
     }
 }

@@ -25,6 +25,8 @@ import org.yestech.cache.ICacheManager;
 import org.yestech.lib.util.Pair;
 
 import java.util.Set;
+import java.util.Collection;
+
 import org.terracotta.modules.annotations.InstrumentedClass;
 import org.terracotta.modules.annotations.Root;
 
@@ -135,7 +137,7 @@ public class TerracottaCacheManager<K,V> implements ICacheManager<K,V> {
     }
 
     @Override
-    public Set<K> keySet() {
+    public Collection<K> keys() {
         try {
             return (Set<K>) cache.getKeys(fqn);
         } catch (CacheException e) {
@@ -145,9 +147,9 @@ public class TerracottaCacheManager<K,V> implements ICacheManager<K,V> {
     }
 
     @Override
-    public Set<V> getAll() {
+    public Collection<V> getAll() {
         Set<V> values = newHashSet();
-        Set<K> keys = keySet();
+        Collection<K> keys = keys();
         if (keys == null) {
             return null;
         } else {

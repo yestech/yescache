@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 
-import java.util.Set;
+import java.util.Collection;
 
 /**
  * Cache Manager for Apache <a href="http://http://jakarta.apache.org/jcs/">jcs</a>
@@ -130,12 +130,12 @@ public class JCSCacheManager<K,V> implements ICacheManager<K,V>
     }
 
     @Override
-    public Set<K> keySet() {
+    public Collection<K> keys() {
         throw new UnsupportedOperationException("not yet implemented...");
     }
 
     @Override
-    public Set<V> getAll() {
+    public Collection<V> getAll() {
         throw new UnsupportedOperationException("not yet implemented...");
     }
 }

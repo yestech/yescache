@@ -24,6 +24,7 @@ import org.terracotta.cache.DistributedCache;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.Set;
+import java.util.Collection;
 
 import org.apache.commons.lang.StringUtils;
 import org.terracotta.cache.CacheConfig;
@@ -187,14 +188,14 @@ public class TerracottaDistributedCacheManager<K,V> implements ICacheManager<K,V
     }
 
     @Override
-    public Set<K> keySet() {
+    public Collection<K> keys() {
         return cache.keySet();
     }
 
     @Override
-    public Set<V> getAll() {
+    public Collection<V> getAll() {
         Set<V> values = newHashSet();
-        Set<K> keys = keySet();
+        Collection<K> keys = keys();
         if (keys == null) {
             return null;
         } else {

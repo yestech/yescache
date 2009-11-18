@@ -20,8 +20,8 @@ import org.terracotta.modules.annotations.Root;
 import org.yestech.cache.ICacheManager;
 import org.yestech.lib.util.Pair;
 
+import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -72,7 +72,7 @@ public class ConcurrentMapCacheManager<K,V> implements ICacheManager<K,V> {
     @Override
     @AutolockRead
     public V get(K key) {
-        return (V) cache.get(key);
+        return cache.get(key);
     }
 
     @Override
@@ -89,13 +89,13 @@ public class ConcurrentMapCacheManager<K,V> implements ICacheManager<K,V> {
 
     @Override
     @AutolockRead
-    public Set<K> keySet() {
-        return (Set<K>)cache.keySet();
+    public Collection<K> keys() {
+        return cache.keySet();
     }
 
     @Override
     @AutolockRead
-    public Set<V> getAll() {
-        return (Set<V>)cache.entrySet();
+    public Collection<V> getAll() {
+        return cache.values();
     }
 }
