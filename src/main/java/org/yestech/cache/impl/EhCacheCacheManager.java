@@ -96,7 +96,7 @@ public class EhCacheCacheManager<K,V> implements ICacheManager<K,V> {
 
     @Override
     public void flushAll() {
-        cache.flush();
+        cache.removeAll();
     }
 
     @Override
