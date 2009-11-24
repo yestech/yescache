@@ -17,6 +17,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.runner.RunWith;
 import static org.mockito.Mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.Mock;
 
 /**
  *
@@ -25,8 +26,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 @SuppressWarnings({"unchecked"})
 @RunWith(MockitoJUnitRunner.class)
 public class EhCacheCacheManagerUnitTest {
-    
-    EhCacheCacheManager cacheManager;
+
+    @Mock
+    private Cache mockCache;
+
+    private EhCacheCacheManager cacheManager;
 
     @Before
     public void setUp() {
@@ -35,7 +39,6 @@ public class EhCacheCacheManagerUnitTest {
 
     @Test
     public void testFlushAll() {
-        Cache mockCache = mock(Cache.class);
         doNothing().when(mockCache).removeAll();
         cacheManager.setCache(mockCache);
         cacheManager.flushAll();
