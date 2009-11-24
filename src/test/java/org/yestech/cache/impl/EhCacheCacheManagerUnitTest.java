@@ -12,37 +12,52 @@ import net.sf.ehcache.Cache;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  *
  *
  */
+@SuppressWarnings({"unchecked"})
 @RunWith(MockitoJUnitRunner.class)
 public class EhCacheCacheManagerUnitTest {
-    @Mock
-    private Cache mockCache;
-
-    private EhCacheCacheManager cacheManager;
+    
+    EhCacheCacheManager cacheManager;
 
     @Before
     public void setUp() {
         cacheManager = new EhCacheCacheManager();
     }
 
-    @After
-    public void tearDown() {
-    }
-
     @Test
     public void testFlushAll() {
+        Cache mockCache = mock(Cache.class);
         doNothing().when(mockCache).removeAll();
         cacheManager.setCache(mockCache);
         cacheManager.flushAll();
         verify(mockCache).removeAll();
     }
+
+    @Test
+    public void testPutGet() {
+        Cache cache = new Cache("testCache", 10, false, false, 500, 2);
+
+        try {
+            cache.initialise();
+            cacheManager.setCache(cache);
+            cacheManager.put("foo", "bar");
+            Object result = cacheManager.get("foo");
+            assertNotNull(result);
+            assertEquals("bar", result);
+
+        } finally {
+            cache.dispose();
+        }
+    }
+
+
 }
