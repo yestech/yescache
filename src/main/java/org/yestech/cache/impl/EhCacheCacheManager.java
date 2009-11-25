@@ -82,12 +82,12 @@ public class EhCacheCacheManager<K,V> implements ICacheManager<K,V> {
         if (element == null || element.getValue() == null)
         {
             //reference is gone so remove from cache.....
-            if (logger.isInfoEnabled())
+            if (logger.isDebugEnabled())
             {
-                logger.info("Reference to object associated with cache element [" + key
-                            + "] garbage collected remove from cache");
+            	logger.debug("Referenced Element: " + element);
+            	logger.debug("Reference to object associated with cache element [" + key
+                            + "] garbage collected");
             }
-            flush(key);
         } else {
             result = (V) element.getValue();
         }
