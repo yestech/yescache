@@ -16,6 +16,8 @@ package org.yestech.cache;
 import java.util.Map;
 import org.yestech.lib.util.Pair;
 
+import javax.annotation.PreDestroy;
+import javax.annotation.PostConstruct;
 import java.util.Set;
 import java.util.Collection;
 
@@ -95,4 +97,17 @@ public interface ICacheManager<K, V> {
      */
     Collection<V> values();
 
+    /**
+     * Stores a cache to some type of durable storage.  Not gaurenteed to be implemented, dependant on the concrete
+     * implementation.  This method should perform a NoOp if it is not supported.
+     */
+    @PreDestroy
+    void store();
+
+    /**
+     * Loads a cache from some type of durable storage.  Not gaurenteed to be implemented, dependant on the concrete
+     * implementation.  This method should perform a NoOp if it is not supported.
+     */
+    @PostConstruct
+    void load();
 }

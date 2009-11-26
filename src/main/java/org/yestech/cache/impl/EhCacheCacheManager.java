@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 
+import javax.annotation.PreDestroy;
 import java.util.Set;
 import java.util.Collection;
 
@@ -113,4 +114,22 @@ public class EhCacheCacheManager<K,V> implements ICacheManager<K,V> {
     public Collection<V> values() {
         return null;
     }
+
+    /**
+     * Stores a cache to some type of durable storage.  Not gaurenteed to be implemented, dependant on the concrete
+     * implementation.  This method should perform a NoOp if it is not supported.
+     */
+    @Override
+    public void store() {
+        cache.flush();
+    }
+
+    /**
+     * Loads a cache from some type of durable storage.  Not gaurenteed to be implemented, dependant on the concrete
+     * implementation.  This method should perform a NoOp if it is not supported.
+     */
+    @Override
+    public void load() {
+    }
+
 }

@@ -91,4 +91,20 @@ public class InfinispanCacheManager<K, V> implements ICacheManager<K, V> {
     public Collection<V> values() {
         return null;
     }
+
+    /**
+     * Stores a cache to some type of durable storage.  Not gaurenteed to be implemented, dependant on the concrete
+     * implementation.  This method should perform a NoOp if it is not supported.
+     */
+    @Override
+    public void store() {
+    }
+
+    /**
+     * Loads a cache from some type of durable storage.  Not gaurenteed to be implemented, dependant on the concrete
+     * implementation.  This method should perform a NoOp if it is not supported.
+     */
+    @Override
+    public void load() {
+    }
 }
