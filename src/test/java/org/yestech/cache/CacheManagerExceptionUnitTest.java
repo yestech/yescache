@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
  * @author Greg Crow
  * @version $Revision: $
  */
-public class CachemanageExceptionUnitTest
+public class CacheManagerExceptionUnitTest
 {
     @Test(expected = CacheManagerException.class)
     public void testCachemangerException() {
