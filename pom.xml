@@ -54,7 +54,7 @@
     </ciManagement>
     <properties>
         <infinispan.version>4.1.0.FINAL</infinispan.version>
-        <ehcache.version>1.7.0</ehcache.version>
+        <ehcache.version>2.2.0</ehcache.version>
         <tim-annotations.version>1.4.0</tim-annotations.version>
         <tim-distributed-cache.version>1.2.0</tim-distributed-cache.version>
         <tim-tree-map-cache.version>1.4.0</tim-tree-map-cache.version>
