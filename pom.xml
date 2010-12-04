@@ -14,8 +14,8 @@
         <version>1.2.0</version>
     </parent>
     <scm>
-        <connection>scm:git:git://github.com/yestech/yescache.git</connection>
-        <developerConnection>scm:git:git://github.com/yestech/yescache.git</developerConnection>
+        <connection>scm:git:git@github.com:yestech/yescache.git</connection>
+        <developerConnection>scm:git:git@github.com:yestech/yescache.git</developerConnection>
         <url>http://github.com/yestech/yescache/tree/master</url>
     </scm>
     <organization>
@@ -48,15 +48,21 @@
             </roles>
         </developer>
     </developers>
+    <ciManagement>
+        <url>http://ci.yestech.org</url>
+        <system>hudson</system>
+    </ciManagement>
     <properties>
-        <infinispan.version>4.0.0.CR1</infinispan.version>
+        <infinispan.version>4.1.0.FINAL</infinispan.version>
         <ehcache.version>1.7.0</ehcache.version>
         <tim-annotations.version>1.4.0</tim-annotations.version>
         <tim-distributed-cache.version>1.2.0</tim-distributed-cache.version>
         <tim-tree-map-cache.version>1.4.0</tim-tree-map-cache.version>
-        <yeslib.version>1.0.0</yeslib.version>
+        <yeslib.version>1.2.0</yeslib.version>
         <jcs.version>1.3</jcs.version>
         <spy-memcached.version>2.4.2</spy-memcached.version>
+        <slf4j.version>1.5.11</slf4j.version>
+        <spring.version>2.5.6.SEC01</spring.version>
     </properties>
     <dependencies>
         <dependency>
@@ -123,6 +129,37 @@
             <artifactId>memcached</artifactId>
             <version>${spy-memcached.version}</version>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
 </project>
