@@ -52,7 +52,7 @@
         <system>hudson</system>
     </ciManagement>
     <properties>
-        <infinispan.version>4.1.0.FINAL</infinispan.version>
+        <infinispan.version>10.0.0.Final</infinispan.version>
         <ehcache.version>2.2.0</ehcache.version>
         <tim-annotations.version>1.4.0</tim-annotations.version>
         <tim-distributed-cache.version>1.2.0</tim-distributed-cache.version>
